@@ -11,6 +11,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -130,7 +132,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback{
             public void run() {
                 try {
                     // 创建Socket对象 & 指定服务端的IP 及 端口号
-                    socket = new Socket("172.20.10.5", 9999);
+                    socket = new Socket("192.168.31.164", 9999);
                     // 判断客户端和服务器是否连接成功
                     System.out.println(socket.isConnected());
 
@@ -188,25 +190,34 @@ public class MapsActivity extends Activity implements OnMapReadyCallback{
                     }
                 }
 
-                JSONObject myjObject = null;
-                try {
-                    myjObject = myjs_array.getJSONObject(0);
-                } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(),"jsonarray[0] is null", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
+                for(int i=0; i<myjs_array.length(); i++) {
+                    JSONObject myjObject = null;
+                    try {
+                        myjObject = myjs_array.getJSONObject(i);
+                    } catch (JSONException e) {
+                        Toast.makeText(getApplicationContext(), "jsonarray[i] is null", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
 
-                try {
-                    String lat = myjObject.getString("gps_lat");
-                    String lon = myjObject.getString("gps_lon");
-                    float f_lat = Float.parseFloat(lat);
-                    float f_lon = Float.parseFloat(lon);
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(f_lat,f_lon)));
-                } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(),"can't find that index", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
+                    try {
+                        String lat = myjObject.getString("gps_lat");
+                        String lon = myjObject.getString("gps_lon");
+                        String pm25 = myjObject.getString("Pm25");
+                        float f_lat = Float.parseFloat(lat);
+                        float f_lon = Float.parseFloat(lon);
+                        float f_pm25 = Float.parseFloat(pm25);
+                        BitmapDescriptor descriptor = null;
+                        if(f_pm25<=50.0) descriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+                        else if(f_pm25<=100.0) descriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
+                        else if(f_pm25<=150.0) descriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
+                        else if(f_pm25<=200.0) descriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+                        else descriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET);
+                        mMap.addMarker(new MarkerOptions().position(new LatLng(f_lat, f_lon)).icon(descriptor));
+                    } catch (JSONException e) {
+                        Toast.makeText(getApplicationContext(), "can't find that index", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
                 }
-
             }
         };
     }
