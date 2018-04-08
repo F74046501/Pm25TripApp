@@ -1,7 +1,10 @@
 package com.example.r_ni.maptest;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,6 +39,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -83,9 +90,11 @@ public class MainActivity extends AppCompatActivity
     TextView textView_d2;
     TextView textView_d3;
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -120,7 +129,6 @@ public class MainActivity extends AppCompatActivity
             weather_night[i] = "";
             temperature_morning[i] = "";
             temperature_night[i] = "";
-
         }
         server_connect();
     }
@@ -190,8 +198,6 @@ public class MainActivity extends AppCompatActivity
     private void server_connect(){
         // 初始化线程池
         mThreadPool = Executors.newCachedThreadPool();
-
-
         /**
          * 创建客户端 & server的连接
          * 並且接收server的訊息
@@ -201,7 +207,7 @@ public class MainActivity extends AppCompatActivity
             public void run() {
                 try {
                     // 创建Socket对象 & 指定服务端的IP 及 端口号
-                    socket = new Socket("192.168.31.164", 9999);
+                    socket = new Socket("172.20.10.5", 9999);
                     // 判断客户端和服务器是否连接成功
                     System.out.println(socket.isConnected());
 
@@ -232,16 +238,12 @@ public class MainActivity extends AppCompatActivity
                                 e.printStackTrace();
                             }
                         }
-
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
         });
 
@@ -263,10 +265,6 @@ public class MainActivity extends AppCompatActivity
                     JSONObject myjObject = null;
                     try {
                         myjObject = myjs_array.getJSONObject(23 + index * 16 + i);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    try {
                         temperature_morning[i] = myjObject.getString("temperature");
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -274,10 +272,6 @@ public class MainActivity extends AppCompatActivity
                     ////////////////////////////////////////////////////////////////////
                     try {
                         myjObject = myjs_array.getJSONObject(31 + index * 16 + i);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    try {
                         temperature_night[i] = myjObject.getString("temperature");
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -285,10 +279,6 @@ public class MainActivity extends AppCompatActivity
                     ////////////////////////////////////////////////////////////////////
                     try {
                         myjObject = myjs_array.getJSONObject(374 + index * 14 + i);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    try {
                         weather_morning[i] = myjObject.getString("Rain");
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -296,10 +286,6 @@ public class MainActivity extends AppCompatActivity
                     ////////////////////////////////////////////////////////////////////
                     try {
                         myjObject = myjs_array.getJSONObject(381 + index * 14 + i);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    try {
                         weather_night[i] = myjObject.getString("Rain");
                     } catch (JSONException e) {
                         e.printStackTrace();

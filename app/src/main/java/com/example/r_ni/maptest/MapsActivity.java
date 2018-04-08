@@ -1,39 +1,25 @@
 package com.example.r_ni.maptest;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.graphics.Color;
-import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,11 +29,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.Socket;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.charts.LineChart;
 
 public class MapsActivity extends Activity implements OnMapReadyCallback{
 
@@ -117,6 +107,55 @@ public class MapsActivity extends Activity implements OnMapReadyCallback{
         // 移動地圖
         moveMap(place);
     }
+    /*
+    //建立折線圖的資料
+    private List<Entry> getChartData(){
+        final int DATA_COUNT = 5;
+
+        List<Entry> chartData = new ArrayList<>();
+        for(int i=0;i<DATA_COUNT;i++){
+            chartData.add(new Entry(i*2, i));
+        }
+        return chartData;
+    }
+
+    //建立X Label
+    private List<String> getLabels(){
+        List<String> chartLabels = new ArrayList<>();
+        for(int i=0;i<5;i++){
+            chartLabels.add("X"+i);
+        }
+        return chartLabels;
+    }
+
+    //產生一組DataSet，將它整合到圖表資料(LineData)裡
+    private LineData getLineData(){
+        LineDataSet dataSetA = new LineDataSet(getChartData(), "LabelA");
+
+        List<LineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(dataSetA); // add the datasets
+
+        return new LineData(getLabels(), dataSets);
+    }
+    */
+    private LineData line_chart_initialize(){
+        ArrayList<Entry> lineEntries = new ArrayList<Entry>();
+        lineEntries.add(new Entry(0, 100));
+        lineEntries.add(new Entry(1, 50));
+        lineEntries.add(new Entry(2, 22));
+        lineEntries.add(new Entry(3, 8));
+        lineEntries.add(new Entry(4, 12));
+        lineEntries.add(new Entry(5, 10));
+
+        LineDataSet lineDataSet1 = new LineDataSet(lineEntries, "Line1");
+
+        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+        dataSets.add(lineDataSet1);
+
+        LineData data = new LineData(dataSets);
+
+        return data;
+    }
 
     private void server_connect(){
         // 初始化线程池
@@ -132,7 +171,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback{
             public void run() {
                 try {
                     // 创建Socket对象 & 指定服务端的IP 及 端口号
-                    socket = new Socket("192.168.31.164", 9999);
+                    socket = new Socket("172.20.10.5", 9998);
                     // 判断客户端和服务器是否连接成功
                     System.out.println(socket.isConnected());
 
@@ -203,8 +242,9 @@ public class MapsActivity extends Activity implements OnMapReadyCallback{
                         String lat = myjObject.getString("gps_lat");
                         String lon = myjObject.getString("gps_lon");
                         String pm25 = myjObject.getString("Pm25");
-                        float f_lat = Float.parseFloat(lat);
-                        float f_lon = Float.parseFloat(lon);
+                        String place = myjObject.getString("site");
+                        final float f_lat = Float.parseFloat(lat);
+                        final float f_lon = Float.parseFloat(lon);
                         float f_pm25 = Float.parseFloat(pm25);
                         BitmapDescriptor descriptor = null;
                         if(f_pm25<=50.0) descriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
@@ -212,7 +252,34 @@ public class MapsActivity extends Activity implements OnMapReadyCallback{
                         else if(f_pm25<=150.0) descriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
                         else if(f_pm25<=200.0) descriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
                         else descriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET);
-                        mMap.addMarker(new MarkerOptions().position(new LatLng(f_lat, f_lon)).icon(descriptor));
+                        mMap.addMarker(new MarkerOptions().position(new LatLng(f_lat, f_lon)).icon(descriptor).snippet("the pm2.5 data").title(place));
+
+                        //編輯marker內的資訊
+                        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+                            @Override
+                            public View getInfoWindow(Marker marker) {
+                                return null;
+                            }
+
+                            //使用版面配置marker.xml的資料
+                            @Override
+                            public View getInfoContents(Marker marker) {
+                                View v = getLayoutInflater().inflate(R.layout.marker, null);
+
+                                TextView title = (TextView)v.findViewById(R.id.title);
+                                TextView snippet = (TextView)v.findViewById(R.id.snippet);
+                                TextView place = (TextView)v.findViewById(R.id.place);
+                                LineChart chart_line = (LineChart)v.findViewById(R.id.chart_line);
+
+                                title.setText("Place: " + marker.getTitle());
+                                snippet.setText(marker.getSnippet());
+                                place.setText("經度: " + f_lon + "緯度: " + f_lat);
+                                chart_line.setData(line_chart_initialize());
+
+                                return v;
+                            }
+                        });
+
                     } catch (JSONException e) {
                         Toast.makeText(getApplicationContext(), "can't find that index", Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
