@@ -36,11 +36,12 @@ import java.io.*;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class pythonDraw extends AppCompatActivity {
 
     private Button sendBtn;
-    private EditText textbox;
+    private EditText textboxPlace, textboxStartTime, textboxStayTime, textboxDate;
 
     //////////the thing of server///////////
     /*主 变量*/
@@ -76,20 +77,27 @@ public class pythonDraw extends AppCompatActivity {
         setContentView(R.layout.activity_python_draw);
 
         sendBtn = (Button)findViewById(R.id.sendbtn);
-        textbox = (EditText)findViewById(R.id.textboxTest);
+        textboxPlace = (EditText)findViewById(R.id.textboxPlace); //ex:台北101/淡水老街/陽明山/圓山大飯店
+        textboxStartTime = (EditText)findViewById(R.id.textboxStartTime); //ex:2155
+        textboxStayTime = (EditText)findViewById(R.id.textboxStayTime);// ex:180/220/60
+        textboxDate = (EditText)findViewById(R.id.textboxDate);// ex:0711
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String result = textbox.getText().toString();
+                String placeStr = textboxPlace.getText().toString();
+                String startStr = textboxStartTime.getText().toString();
+                String stayStr = textboxStayTime.getText().toString();
+                String dateStr = textboxDate.getText().toString();
+                String result = placeStr+"*"+startStr+"*"+stayStr+"*"+dateStr;
                 System.out.println(result);
-                server_connect();
+                server_connect(result);
             }
         });
 
     }
 
-    private void server_connect(){
+    private void server_connect(final String strSend){
         // 初始化线程池
         mThreadPool = Executors.newCachedThreadPool();
         /**
@@ -101,7 +109,7 @@ public class pythonDraw extends AppCompatActivity {
             public void run() {
                 try {
                     // 创建Socket对象 & 指定服务端的IP 及 端口号
-                    socket = new Socket("192.168.31.172", 6666);
+                    socket = new Socket("192.168.31.172", 6665);
                     // 判断客户端和服务器是否连接成功
                     //System.out.println(socket.isConnected());
 
@@ -113,7 +121,7 @@ public class pythonDraw extends AppCompatActivity {
                         BufferedWriter bw;
                         bw = new BufferedWriter( new OutputStreamWriter(socket.getOutputStream()));
                         // 寫入訊息到串流
-                        bw.write("hihihi"+"\n");
+                        bw.write(strSend);
                         // 立即發送
                         bw.flush();
                     } catch (IOException e) {}
@@ -122,24 +130,32 @@ public class pythonDraw extends AppCompatActivity {
                      * 接收圖片回來
                      */
                     try{
+                        TimeUnit.SECONDS.sleep(20);
                         InputStream stream = socket.getInputStream();
+                        System.out.println("get input stream");
                         //byte[] data = new byte[26784];
                         int count = stream.read(data);
-
+                        System.out.print("data count is "+count);
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
-                                ImageView imageView = new ImageView(pythonDraw.this);
+
+                                ImageView img= (ImageView) findViewById(R.id.imgChart);
+                                img.setImageBitmap(bmp);
+
+                                /*ImageView imageView = new ImageView(pythonDraw.this);
                                 // Set the Bitmap data to the ImageView
                                 imageView.setImageBitmap(bmp);
                                 // Get the Root View of the layout
                                 ViewGroup layout = (ViewGroup) findViewById(android.R.id.content);
                                 // Add the ImageView to the Layout
-                                layout.addView(imageView);
+                                layout.addView(imageView);*/
                             }
                         });
 
                     }catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
 
