@@ -98,6 +98,12 @@ public class pythonDraw extends AppCompatActivity {
     }
 
     private void server_connect(final String strSend){
+        runOnUiThread(new Runnable() {
+            public void run() {
+                ImageView img= (ImageView) findViewById(R.id.imgChart);
+                img.setImageResource(R.drawable.loading);
+            }
+        });
         // 初始化线程池
         mThreadPool = Executors.newCachedThreadPool();
         /**
@@ -109,7 +115,8 @@ public class pythonDraw extends AppCompatActivity {
             public void run() {
                 try {
                     // 创建Socket对象 & 指定服务端的IP 及 端口号
-                    socket = new Socket("192.168.31.172", 6665);
+                    socket = new Socket("192.168.31.172", 6665
+                    );
                     // 判断客户端和服务器是否连接成功
                     //System.out.println(socket.isConnected());
 
@@ -141,6 +148,7 @@ public class pythonDraw extends AppCompatActivity {
                                 Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
 
                                 ImageView img= (ImageView) findViewById(R.id.imgChart);
+
                                 img.setImageBitmap(bmp);
 
                                 /*ImageView imageView = new ImageView(pythonDraw.this);

@@ -165,6 +165,7 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    //操控Manu Bar的地方，也是跳activity的地方
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -177,9 +178,12 @@ public class MainActivity extends AppCompatActivity
             intent.setClass(this,MapsActivity.class);
             startActivity(intent);
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_search) {
+            Intent intent = new Intent();
+            Bundle bundle = new Bundle();//the package of the things i want to pass
+            intent.setClass(this,pythonDraw.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_whole) {
 
         } else if (id == R.id.nav_manage) {
 
@@ -207,8 +211,9 @@ public class MainActivity extends AppCompatActivity
             public void run() {
                 try {
                     // 创建Socket对象 & 指定服务端的IP 及 端口号
-                    socket = new Socket("172.20.10.5", 9999);
+                    socket = new Socket("192.168.100.41", 9997);
                     // 判断客户端和服务器是否连接成功
+                    System.out.println("132123123123132123");
                     System.out.println(socket.isConnected());
 
                     /**

@@ -171,7 +171,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback{
             public void run() {
                 try {
                     // 创建Socket对象 & 指定服务端的IP 及 端口号
-                    socket = new Socket("172.20.10.5", 9998);
+                    socket = new Socket("192.168.100.41", 9998);
                     // 判断客户端和服务器是否连接成功
                     System.out.println(socket.isConnected());
 
