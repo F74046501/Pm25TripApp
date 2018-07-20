@@ -5,9 +5,11 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -22,6 +24,7 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,7 +79,7 @@ public class MainActivity extends AppCompatActivity
 
     //////////the things of Now_Weather///////////
     //哪一個城市的資訊
-    int index = 0;
+    int index = 13;
     String[] temperature_morning = new String[7];
     String[] temperature_night = new String[7];
     String[] weather_morning = new String[7];
@@ -86,9 +89,14 @@ public class MainActivity extends AppCompatActivity
     ImageView ImageView_d1;
     ImageView ImageView_d2;
     ImageView ImageView_d3;
+    ImageView ImageView_d4;
+    ImageView ImageView_d5;
+    ImageView ImageView_d6;
     TextView textView_d1 ;
     TextView textView_d2;
     TextView textView_d3;
+
+    LinearLayout myLayout;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -99,14 +107,14 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -119,17 +127,21 @@ public class MainActivity extends AppCompatActivity
 
         /////////////////上面是它一開始有的東西///////////////////////////
         textView_d1 = (TextView)findViewById(R.id.textView_D1);
-        textView_d2 = (TextView)findViewById(R.id.textView_D2);
-        textView_d3 = (TextView)findViewById(R.id.textView_D3);
+        //textView_d2 = (TextView)findViewById(R.id.textView_D2);
+        //textView_d3 = (TextView)findViewById(R.id.textView_D3);
         ImageView_d1  = (ImageView)findViewById(R.id.image_d1);
         ImageView_d2  = (ImageView)findViewById(R.id.image_d2);
         ImageView_d3  = (ImageView)findViewById(R.id.image_d3);
+        ImageView_d4  = (ImageView)findViewById(R.id.image_d4);
+        ImageView_d5  = (ImageView)findViewById(R.id.image_d5);
+        ImageView_d6  = (ImageView)findViewById(R.id.image_d6);
         for(int i = 0; i < 7; i++){
             weather_morning[i] = "";
             weather_night[i] = "";
             temperature_morning[i] = "";
             temperature_night[i] = "";
         }
+        myLayout = (LinearLayout) findViewById(R.id.myLayout);
         server_connect();
     }
 
@@ -211,9 +223,8 @@ public class MainActivity extends AppCompatActivity
             public void run() {
                 try {
                     // 创建Socket对象 & 指定服务端的IP 及 端口号
-                    socket = new Socket("192.168.100.41", 9997);
+                    socket = new Socket("192.168.31.172", 4444);
                     // 判断客户端和服务器是否连接成功
-                    System.out.println("132123123123132123");
                     System.out.println(socket.isConnected());
 
                     /**
@@ -254,14 +265,15 @@ public class MainActivity extends AppCompatActivity
 
         // 实例化主线程,""用于更新接收过来的消息""
         mMainHandler = new Handler() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void handleMessage(Message msg) {
-                Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
                 if (response != null) {
                     try {
                         myjs_array = new JSONArray(response);
                     } catch (JSONException e) {
-                        Toast.makeText(getApplicationContext(), "response is null", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "response is null", Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
                     }
                 }
@@ -297,57 +309,232 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
 
-                textView_d1.setText("\t\t\tDay 1\n早上\n" + "氣溫：" + temperature_morning[0] + "\n天氣：" + weather_morning[0] +
+                textView_d1.setText("\t\t\t明天\n早上\n" + "氣溫：" + temperature_morning[0] + "\n天氣：" + weather_morning[0] +
                         "\n\n晚上\n" + "氣溫：" + temperature_night[0] + "\n天氣：" + weather_night[0]);
-                textView_d2.setText("\t\t\tDay 2\n早上\n" + "氣溫：" + temperature_morning[1] + "\n天氣：" + weather_morning[1] +
-                        "\n\n晚上\n" + "氣溫：" + temperature_night[1] + "\n天氣：" + weather_night[1]);
-                textView_d3.setText("\t\t\tDay 3\n早上\n" + "氣溫：" + temperature_morning[2] + "\n天氣：" + weather_morning[2] +
-                        "\n\n晚上\n" + "氣溫：" + temperature_night[2] + "\n天氣：" + weather_night[2]);
+                /*textView_d2.setText("\t\t\t\t後天\n早上\n" + "氣溫：" + temperature_morning[1] +
+                        "\n\n晚上\n" + "氣溫：" + temperature_night[1]);
+                textView_d3.setText("\t\t\t\t大後天\n早上\n" + "氣溫：" + temperature_morning[2]  +
+                        "\n\n晚上\n" + "氣溫：" + temperature_night[2]);*/
 
-                Boolean[] d1d2d3_cloud = new Boolean[3];
-                Boolean[] d1d2d3_sun = new Boolean[3];
-                Boolean[] d1d2d3_rain = new Boolean[3];
-                Boolean[] d1d2d3_thunder = new Boolean[3];
-                for(int i = 0; i < 3; i++){
+                final Boolean[] d1d2d3_cloud = new Boolean[7];
+                final Boolean[] d1d2d3_sun = new Boolean[7];
+                final Boolean[] d1d2d3_rain = new Boolean[7];
+                final Boolean[] d1d2d3_thunder = new Boolean[7];
+                for(int i = 0; i < 7; i++){
                     d1d2d3_cloud[i] = false;
                     d1d2d3_rain[i] = false;
                     d1d2d3_sun[i] = false;
                     d1d2d3_thunder[i] = false;
                 }
-                for (int i = 0; i < 3; i++) {
+                for (int i = 0; i < 7; i++) {
                     for (int j = 0; j < weather_morning[i].length(); j++) {
                         if (weather_morning[i].charAt(j) == '雲') d1d2d3_cloud[i] = true;
                         if (weather_morning[i].charAt(j) == '晴') d1d2d3_sun[i] = true;
                         if (weather_morning[i].charAt(j) == '雨') d1d2d3_rain[i] = true;
                         if (weather_morning[i].charAt(j) == '雷') d1d2d3_thunder[i] = true;
                     }
-
-                    if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==false && d1d2d3_rain[i]==false && d1d2d3_thunder[i]==false) {
-                        if(i==0) ImageView_d1.setImageResource(R.drawable.cloud);
-                        else if(i==1) ImageView_d2.setImageResource(R.drawable.cloud);
-                        else if(i==2) ImageView_d3.setImageResource(R.drawable.cloud);
-                    }
-                    else if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==true && d1d2d3_rain[i]==false && d1d2d3_thunder[i]==false) {
-                        if(i==0) ImageView_d1.setImageResource(R.drawable.sun_cloud);
-                        else if(i==1) ImageView_d2.setImageResource(R.drawable.sun_cloud);
-                        else if(i==2) ImageView_d3.setImageResource(R.drawable.sun_cloud);
-                    }
-                    else if (d1d2d3_cloud[i]==false && d1d2d3_sun[i]==true && d1d2d3_rain[i]==false && d1d2d3_thunder[i]==false) {
-                        if(i==0) ImageView_d1.setImageResource(R.drawable.sun);
-                        else if(i==1) ImageView_d2.setImageResource(R.drawable.sun);
-                        else if(i==2) ImageView_d3.setImageResource(R.drawable.sun);
-                    }
-                    else if (d1d2d3_thunder[i]==true) {
-                        if(i==0) ImageView_d1.setImageResource(R.drawable.cloud_thunder_rain);
+                    if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==false && d1d2d3_rain[i]==true && d1d2d3_thunder[i]==true) {
+                        if(i==0) {
+                            ImageView_d1.setImageResource(R.drawable.cloud_thunder_rain);
+                            myLayout.setBackgroundResource(R.drawable.rain_bg);
+                        }
                         else if(i==1) ImageView_d2.setImageResource(R.drawable.cloud_thunder_rain);
                         else if(i==2) ImageView_d3.setImageResource(R.drawable.cloud_thunder_rain);
+                        else if(i==3) ImageView_d4.setImageResource(R.drawable.cloud_thunder_rain);
+                        else if(i==4) ImageView_d5.setImageResource(R.drawable.cloud_thunder_rain);
+                        else if(i==5) ImageView_d6.setImageResource(R.drawable.cloud_thunder_rain);
                     }
-                    else if (d1d2d3_rain[i]==false && d1d2d3_thunder[i]==false) {
-                        if(i==0) ImageView_d1.setImageResource(R.drawable.rain);
+                    else if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==true && d1d2d3_rain[i]==false && d1d2d3_thunder[i]==false) {
+                        if(i==0) {
+                            ImageView_d1.setImageResource(R.drawable.sun_cloud);
+                            myLayout.setBackgroundResource(R.drawable.cloudy_bg);
+                        }
+                        else if(i==1) ImageView_d2.setImageResource(R.drawable.sun_cloud);
+                        else if(i==2) ImageView_d3.setImageResource(R.drawable.sun_cloud);
+                        else if(i==3) ImageView_d4.setImageResource(R.drawable.sun_cloud);
+                        else if(i==4) ImageView_d5.setImageResource(R.drawable.sun_cloud);
+                        else if(i==5) ImageView_d6.setImageResource(R.drawable.sun_cloud);
+                    }
+                    else if (d1d2d3_rain[i]==true) {
+                        if(i==0) {
+                            ImageView_d1.setImageResource(R.drawable.rain);
+                            myLayout.setBackgroundResource(R.drawable.rain_bg);
+                        }
                         else if(i==1) ImageView_d2.setImageResource(R.drawable.rain);
                         else if(i==2) ImageView_d3.setImageResource(R.drawable.rain);
+                        else if(i==3) ImageView_d4.setImageResource(R.drawable.rain);
+                        else if(i==4) ImageView_d5.setImageResource(R.drawable.rain);
+                        else if(i==5) ImageView_d6.setImageResource(R.drawable.rain);
+                    }
+                    else if (d1d2d3_sun[i]==true) {
+                        if(i==0) {
+                            ImageView_d1.setImageResource(R.drawable.sun);
+                            myLayout.setBackgroundResource(R.drawable.sun_bg);
+                        }
+                        else if(i==1) ImageView_d2.setImageResource(R.drawable.sun);
+                        else if(i==2) ImageView_d3.setImageResource(R.drawable.sun);
+                        else if(i==3) ImageView_d4.setImageResource(R.drawable.sun);
+                        else if(i==4) ImageView_d5.setImageResource(R.drawable.sun);
+                        else if(i==5) ImageView_d6.setImageResource(R.drawable.sun);
+                    }
+                    else {
+                        if(i==0) {
+                            ImageView_d1.setImageResource(R.drawable.cloud);
+                            myLayout.setBackgroundResource(R.drawable.cloudy_bg);
+                        }
+                        else if(i==1) ImageView_d2.setImageResource(R.drawable.cloud);
+                        else if(i==2) ImageView_d3.setImageResource(R.drawable.cloud);
+                        else if(i==3) ImageView_d4.setImageResource(R.drawable.cloud);
+                        else if(i==4) ImageView_d5.setImageResource(R.drawable.cloud);
+                        else if(i==5) ImageView_d6.setImageResource(R.drawable.cloud);
                     }
                 }
+
+                ImageView_d1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int i=0;
+                        //String tmp = "早上\n" + "氣溫：" + temperature_morning[i] + "\n天氣：" + weather_morning[i] +
+                        //        "\n\n晚上\n" + "氣溫：" + temperature_night[i] + "\n天氣：" + weather_night[i];
+                        if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==false && d1d2d3_rain[i]==true && d1d2d3_thunder[i]==true) {
+                            myLayout.setBackgroundResource(R.drawable.rain_bg);
+                        }
+                        else if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==true && d1d2d3_rain[i]==false && d1d2d3_thunder[i]==false) {
+                            myLayout.setBackgroundResource(R.drawable.cloudy_bg);
+                        }
+                        else if (d1d2d3_rain[i]==true) {
+                            myLayout.setBackgroundResource(R.drawable.rain_bg);
+                        }
+                        else if (d1d2d3_sun[i]==true) {
+                            myLayout.setBackgroundResource(R.drawable.sun_bg);
+                        }
+                        else {
+                            myLayout.setBackgroundResource(R.drawable.cloudy_bg);
+                        }
+                        //Toast.makeText(getApplicationContext(), tmp, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                ImageView_d2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int i=1;
+                        String tmp = "早上\n" + "氣溫：" + temperature_morning[1] + "\n天氣：" + weather_morning[1] +
+                        "\n\n晚上\n" + "氣溫：" + temperature_night[1] + "\n天氣：" + weather_night[1];
+                        if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==false && d1d2d3_rain[i]==true && d1d2d3_thunder[i]==true) {
+                            myLayout.setBackgroundResource(R.drawable.rain_bg);
+                        }
+                        else if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==true && d1d2d3_rain[i]==false && d1d2d3_thunder[i]==false) {
+                            myLayout.setBackgroundResource(R.drawable.cloudy_bg);
+                        }
+                        else if (d1d2d3_rain[i]==true) {
+                            myLayout.setBackgroundResource(R.drawable.rain_bg);
+                        }
+                        else if (d1d2d3_sun[i]==true) {
+                            myLayout.setBackgroundResource(R.drawable.sun_bg);
+                        }
+                        else {
+                            myLayout.setBackgroundResource(R.drawable.cloudy_bg);
+                        }
+                        Toast.makeText(getApplicationContext(), tmp, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                ImageView_d3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int i =2;
+                        String tmp = "早上\n" + "氣溫：" + temperature_morning[2] + "\n天氣：" + weather_morning[2] +
+                                "\n\n晚上\n" + "氣溫：" + temperature_night[2] + "\n天氣：" + weather_night[2];
+                        if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==false && d1d2d3_rain[i]==true && d1d2d3_thunder[i]==true) {
+                            myLayout.setBackgroundResource(R.drawable.rain_bg);
+                        }
+                        else if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==true && d1d2d3_rain[i]==false && d1d2d3_thunder[i]==false) {
+                            myLayout.setBackgroundResource(R.drawable.cloudy_bg);
+                        }
+                        else if (d1d2d3_rain[i]==true) {
+                            myLayout.setBackgroundResource(R.drawable.rain_bg);
+                        }
+                        else if (d1d2d3_sun[i]==true) {
+                            myLayout.setBackgroundResource(R.drawable.sun_bg);
+                        }
+                        else {
+                            myLayout.setBackgroundResource(R.drawable.cloudy_bg);
+                        }
+                        Toast.makeText(getApplicationContext(), tmp, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                ImageView_d4.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int i = 3;
+                        String tmp = "早上\n" + "氣溫：" + temperature_morning[3] + "\n天氣：" + weather_morning[3] +
+                                "\n\n晚上\n" + "氣溫：" + temperature_night[3] + "\n天氣：" + weather_night[3];
+                        if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==false && d1d2d3_rain[i]==true && d1d2d3_thunder[i]==true) {
+                            myLayout.setBackgroundResource(R.drawable.rain_bg);
+                        }
+                        else if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==true && d1d2d3_rain[i]==false && d1d2d3_thunder[i]==false) {
+                            myLayout.setBackgroundResource(R.drawable.cloudy_bg);
+                        }
+                        else if (d1d2d3_rain[i]==true) {
+                            myLayout.setBackgroundResource(R.drawable.rain_bg);
+                        }
+                        else if (d1d2d3_sun[i]==true) {
+                            myLayout.setBackgroundResource(R.drawable.sun_bg);
+                        }
+                        else {
+                            myLayout.setBackgroundResource(R.drawable.cloudy_bg);
+                        }
+                        Toast.makeText(getApplicationContext(), tmp, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                ImageView_d5.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int i = 4;
+                        String tmp = "早上\n" + "氣溫：" + temperature_morning[4] + "\n天氣：" + weather_morning[4] +
+                                "\n\n晚上\n" + "氣溫：" + temperature_night[4] + "\n天氣：" + weather_night[4];
+                        if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==false && d1d2d3_rain[i]==true && d1d2d3_thunder[i]==true) {
+                            myLayout.setBackgroundResource(R.drawable.rain_bg);
+                        }
+                        else if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==true && d1d2d3_rain[i]==false && d1d2d3_thunder[i]==false) {
+                            myLayout.setBackgroundResource(R.drawable.cloudy_bg);
+                        }
+                        else if (d1d2d3_rain[i]==true) {
+                            myLayout.setBackgroundResource(R.drawable.rain_bg);
+                        }
+                        else if (d1d2d3_sun[i]==true) {
+                            myLayout.setBackgroundResource(R.drawable.sun_bg);
+                        }
+                        else {
+                            myLayout.setBackgroundResource(R.drawable.cloudy_bg);
+                        }
+                        Toast.makeText(getApplicationContext(), tmp, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                ImageView_d6.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int i = 5;
+                        String tmp = "早上\n" + "氣溫：" + temperature_morning[5] + "\n天氣：" + weather_morning[5] +
+                                "\n\n晚上\n" + "氣溫：" + temperature_night[5] + "\n天氣：" + weather_night[5];
+                        if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==false && d1d2d3_rain[i]==true && d1d2d3_thunder[i]==true) {
+                            myLayout.setBackgroundResource(R.drawable.rain_bg);
+                        }
+                        else if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==true && d1d2d3_rain[i]==false && d1d2d3_thunder[i]==false) {
+                            myLayout.setBackgroundResource(R.drawable.cloudy_bg);
+                        }
+                        else if (d1d2d3_rain[i]==true) {
+                            myLayout.setBackgroundResource(R.drawable.rain_bg);
+                        }
+                        else if (d1d2d3_sun[i]==true) {
+                            myLayout.setBackgroundResource(R.drawable.sun_bg);
+                        }
+                        else {
+                            myLayout.setBackgroundResource(R.drawable.cloudy_bg);
+                        }
+                        Toast.makeText(getApplicationContext(), tmp, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
         };
     }
@@ -367,7 +554,7 @@ public class MainActivity extends AppCompatActivity
                 myjObject = myjs_array.getJSONObject(45+index*30+i);
                 weather_night[i] = myjObject.getString("Rain");
 
-                Toast.makeText(getApplicationContext(),"inside", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),"inside", Toast.LENGTH_SHORT).show();
             }
 
             textView_d1.setText("早上\n" + "氣溫：" + temperature_morning[0] + "\n天氣：" + weather_morning[0] +
