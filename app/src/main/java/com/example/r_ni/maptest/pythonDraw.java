@@ -69,7 +69,7 @@ public class pythonDraw extends AppCompatActivity {
     private JSONObject json_read;
     public static JSONArray myjs_array;
 
-    byte[] data = new byte[26784];
+    byte[] data = new byte[100000];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,7 +137,7 @@ public class pythonDraw extends AppCompatActivity {
                      * 接收圖片回來
                      */
                     try{
-                        TimeUnit.SECONDS.sleep(20);
+                        TimeUnit.SECONDS.sleep(25);
                         InputStream stream = socket.getInputStream();
                         System.out.println("get input stream");
                         //byte[] data = new byte[26784];

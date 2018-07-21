@@ -6,12 +6,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/chart_bg"
     tools:context=".pythonDraw">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="25pt"
         android:orientation="horizontal">
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imgChart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text=""
+            tools:layout_editor_absoluteX="260dp"
+            tools:layout_editor_absoluteY="191dp" />
+
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -90,19 +106,6 @@
 
     </LinearLayout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/imgChart"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text=""
-            tools:layout_editor_absoluteX="260dp"
-            tools:layout_editor_absoluteY="191dp" />
-
-    </LinearLayout>
 
 </LinearLayout>
