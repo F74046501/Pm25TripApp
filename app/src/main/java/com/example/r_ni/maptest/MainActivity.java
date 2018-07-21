@@ -22,9 +22,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -95,6 +100,8 @@ public class MainActivity extends AppCompatActivity
     TextView textView_d1 ;
     TextView textView_d2;
     TextView textView_d3;
+    Spinner spinner;
+    Animation fadeIn;
 
     LinearLayout myLayout;
 
@@ -135,6 +142,8 @@ public class MainActivity extends AppCompatActivity
         ImageView_d4  = (ImageView)findViewById(R.id.image_d4);
         ImageView_d5  = (ImageView)findViewById(R.id.image_d5);
         ImageView_d6  = (ImageView)findViewById(R.id.image_d6);
+        spinner = (Spinner) findViewById(R.id.spinnner);
+
         for(int i = 0; i < 7; i++){
             weather_morning[i] = "";
             weather_night[i] = "";
@@ -142,7 +151,75 @@ public class MainActivity extends AppCompatActivity
             temperature_night[i] = "";
         }
         myLayout = (LinearLayout) findViewById(R.id.myLayout);
-        server_connect();
+
+        fadeIn = AnimationUtils.loadAnimation(MainActivity.this, R.anim.fade_in);
+        fadeIn.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Animation fadeOut = AnimationUtils.loadAnimation(MainActivity.this, R.anim.fade_out);
+                //imageView.startAnimation(fadeOut);
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+        //ImageView_d1.startAnimation(fadeIn);
+        //fadeIn.start();
+        /*
+        // 下拉式選單
+         */
+        //建立一個ArrayAdapter物件，並放置下拉選單的內容
+        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,new String[]
+                {"基隆市","台北市","新北市","桃園市","新竹市","新竹縣","苗栗縣","台中市","彰化縣","南投縣","雲林縣","嘉義市",
+                        "嘉義縣","台南市","高雄市","屏東縣","宜蘭縣","花蓮縣","台東縣","連江縣","金門縣","澎湖縣"});
+        //設定下拉選單的樣式
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        //設定項目被選取之後的動作
+        spinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener(){
+            public void onItemSelected(AdapterView adapterView, View view, int position, long id){
+                String place_choose = adapterView.getSelectedItem().toString();
+                Toast.makeText(MainActivity.this, "您選擇"+adapterView.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
+                if(place_choose == "基隆市") index = 0;
+                else if(place_choose == "台北市")index = 1;
+                else if(place_choose == "新北市")index = 2;
+                else if(place_choose == "桃園市")index = 3;
+                else if(place_choose == "新竹市")index = 4;
+                else if(place_choose == "新竹縣")index = 5;
+                else if(place_choose == "苗栗縣")index = 6;
+                else if(place_choose == "台中市")index = 7;
+                else if(place_choose == "彰化縣")index = 8;
+                else if(place_choose == "南投縣")index = 9;
+                else if(place_choose == "雲林縣")index = 10;
+                else if(place_choose == "嘉義市")index = 11;
+                else if(place_choose == "嘉義縣")index = 12;
+                else if(place_choose == "台南市")index = 13;
+                else if(place_choose == "高雄市")index = 14;
+                else if(place_choose == "屏東縣")index = 15;
+                else if(place_choose == "宜蘭縣")index = 16;
+                else if(place_choose == "花蓮縣")index = 17;
+                else if(place_choose == "台東縣")index = 18;
+                else if(place_choose == "連江縣")index = 19;
+                else if(place_choose == "金門縣")index = 20;
+                else if(place_choose == "澎湖縣")index = 21;
+                //淡入淡出
+                ImageView_d1.startAnimation(fadeIn);
+                ImageView_d2.startAnimation(fadeIn);
+                ImageView_d3.startAnimation(fadeIn);
+                ImageView_d4.startAnimation(fadeIn);
+                ImageView_d5.startAnimation(fadeIn);
+                ImageView_d6.startAnimation(fadeIn);
+                textView_d1.startAnimation(fadeIn);
+
+                server_connect();
+            }
+            public void onNothingSelected(AdapterView arg0) {
+                Toast.makeText(MainActivity.this, "您沒有選擇任何項目", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
@@ -309,7 +386,7 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
 
-                textView_d1.setText("\t\t\t明天\n早上\n" + "氣溫：" + temperature_morning[0] + "\n天氣：" + weather_morning[0] +
+                textView_d1.setText("\n早上\n" + "氣溫：" + temperature_morning[0] + "\n天氣：" + weather_morning[0] +
                         "\n\n晚上\n" + "氣溫：" + temperature_night[0] + "\n天氣：" + weather_night[0]);
                 /*textView_d2.setText("\t\t\t\t後天\n早上\n" + "氣溫：" + temperature_morning[1] +
                         "\n\n晚上\n" + "氣溫：" + temperature_night[1]);
@@ -360,7 +437,10 @@ public class MainActivity extends AppCompatActivity
                             ImageView_d1.setImageResource(R.drawable.rain);
                             myLayout.setBackgroundResource(R.drawable.rain_bg);
                         }
-                        else if(i==1) ImageView_d2.setImageResource(R.drawable.rain);
+                        else if(i==1) {
+                            ImageView_d2.setImageResource(R.drawable.rain);
+                            //ImageView_d2.startAnimation(fadeIn);
+                        }
                         else if(i==2) ImageView_d3.setImageResource(R.drawable.rain);
                         else if(i==3) ImageView_d4.setImageResource(R.drawable.rain);
                         else if(i==4) ImageView_d5.setImageResource(R.drawable.rain);
@@ -397,18 +477,23 @@ public class MainActivity extends AppCompatActivity
                         //String tmp = "早上\n" + "氣溫：" + temperature_morning[i] + "\n天氣：" + weather_morning[i] +
                         //        "\n\n晚上\n" + "氣溫：" + temperature_night[i] + "\n天氣：" + weather_night[i];
                         if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==false && d1d2d3_rain[i]==true && d1d2d3_thunder[i]==true) {
+                            fadeIn.start();
                             myLayout.setBackgroundResource(R.drawable.rain_bg);
                         }
                         else if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==true && d1d2d3_rain[i]==false && d1d2d3_thunder[i]==false) {
+                            fadeIn.start();
                             myLayout.setBackgroundResource(R.drawable.cloudy_bg);
                         }
                         else if (d1d2d3_rain[i]==true) {
-                            myLayout.setBackgroundResource(R.drawable.rain_bg);
+                            fadeIn.start();
+                            myLayout.setBackgroundResource(R.drawable.rain_bg);myLayout.setAnimation(fadeIn);fadeIn.start();
                         }
                         else if (d1d2d3_sun[i]==true) {
-                            myLayout.setBackgroundResource(R.drawable.sun_bg);
+                            fadeIn.start();
+                            myLayout.setBackgroundResource(R.drawable.sun_bg);myLayout.setAnimation(fadeIn);fadeIn.start();
                         }
                         else {
+                            fadeIn.start();
                             myLayout.setBackgroundResource(R.drawable.cloudy_bg);
                         }
                         //Toast.makeText(getApplicationContext(), tmp, Toast.LENGTH_SHORT).show();
