@@ -273,7 +273,10 @@ public class MainActivity extends AppCompatActivity
             intent.setClass(this,pythonDraw.class);
             startActivity(intent);
         } else if (id == R.id.nav_whole) {
-
+            Intent intent = new Intent();
+            Bundle bundle = new Bundle();//the package of the things i want to pass
+            intent.setClass(this,SinglePlacePm25.class);
+            startActivity(intent);
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {

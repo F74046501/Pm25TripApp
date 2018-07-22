@@ -7,15 +7,15 @@
         <item
             android:id="@+id/nav_map"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Map" />
+            android:title="全台pm25分佈" />
         <item
             android:id="@+id/nav_search"
             android:icon="@drawable/ic_magnify"
-            android:title="Search" />
+            android:title="景點沿途氣象預測" />
         <item
             android:id="@+id/nav_whole"
             android:icon="@drawable/ic_wholedata"
-            android:title="Whole" />
+            android:title="景點pm25查詢" />
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"

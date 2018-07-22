@@ -57,7 +57,8 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme" />
-        <activity android:name=".pythonDraw"></activity>
+        <activity android:name=".pythonDraw" />
+        <activity android:name=".SinglePlacePm25"></activity>
     </application>
 
 </manifest>
