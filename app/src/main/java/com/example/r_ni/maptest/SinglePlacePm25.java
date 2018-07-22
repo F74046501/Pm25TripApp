@@ -140,11 +140,11 @@ public class SinglePlacePm25 extends AppCompatActivity {
                         //把pm25數值 取小數點後兩位
                         float response_float = Float.parseFloat(response);
                         int tmp = (int) (response_float*100);
-                        float finalAns = tmp/100;
+                        float finalAns = (float)tmp/100;
                         //pm25數值做等級篩選
                         if(finalAns<35){
                             final String reply= String.valueOf(finalAns)
-                                    +"\n低"
+                                    +"\n空污程度 低"
                                     +"\n可正常戶外活動";
                             runOnUiThread(new Runnable() {
                                 public void run() {
@@ -155,7 +155,7 @@ public class SinglePlacePm25 extends AppCompatActivity {
                         }
                         else if(finalAns>=35 && finalAns<53){
                             final String reply= String.valueOf(finalAns)
-                                    +"\n中"
+                                    +"\n空污程度 中"
                                     +"\n有心臟、呼吸道及心血管疾病的成人與孩童感受到癥狀時，應考慮減少體力消耗，特別是減少戶外活動。";
                             runOnUiThread(new Runnable() {
                                 public void run() {
@@ -166,7 +166,7 @@ public class SinglePlacePm25 extends AppCompatActivity {
                         }
                         else if(finalAns>=53 && finalAns<70){
                             final String reply= String.valueOf(finalAns)
-                                    +"\n高"
+                                    +"\n空污程度 高"
                                     +"\n任何人如果有不適，如眼痛，咳嗽或喉嚨痛等，應該考慮減少戶外活動。";
                             runOnUiThread(new Runnable() {
                                 public void run() {
@@ -177,7 +177,7 @@ public class SinglePlacePm25 extends AppCompatActivity {
                         }
                         else if(finalAns>=70){
                             final String reply= String.valueOf(finalAns)
-                                    +"\n非常高"
+                                    +"\n空污程度 非常高"
                                     +"\n任何人如果有不適，如眼痛，咳嗽或喉嚨痛等，應減少體力消耗，特別是減少戶外活動。";
                             runOnUiThread(new Runnable() {
                                 public void run() {
