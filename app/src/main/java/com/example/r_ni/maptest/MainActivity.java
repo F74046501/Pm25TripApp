@@ -409,7 +409,7 @@ public class MainActivity extends AppCompatActivity
                     }
                     if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==false && d1d2d3_rain[i]==true && d1d2d3_thunder[i]==true) {
                         if(i==0) {
-                            ImageView_d1.setImageResource(R.drawable.cloud_thunder_rain);
+                            ImageView_d1.setImageResource(R.drawable.cloud_thunder_rain_white);
                             myLayout.setBackgroundResource(R.drawable.rain_bg);
                         }
                         else if(i==1) ImageView_d2.setImageResource(R.drawable.cloud_thunder_rain);
@@ -420,7 +420,7 @@ public class MainActivity extends AppCompatActivity
                     }
                     else if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==true && d1d2d3_rain[i]==false && d1d2d3_thunder[i]==false) {
                         if(i==0) {
-                            ImageView_d1.setImageResource(R.drawable.sun_cloud);
+                            ImageView_d1.setImageResource(R.drawable.sun_cloud_white);
                             myLayout.setBackgroundResource(R.drawable.cloudy_bg);
                         }
                         else if(i==1) ImageView_d2.setImageResource(R.drawable.sun_cloud);
@@ -431,7 +431,7 @@ public class MainActivity extends AppCompatActivity
                     }
                     else if (d1d2d3_rain[i]==true) {
                         if(i==0) {
-                            ImageView_d1.setImageResource(R.drawable.rain);
+                            ImageView_d1.setImageResource(R.drawable.rain_white);
                             myLayout.setBackgroundResource(R.drawable.rain_bg);
                         }
                         else if(i==1) {
@@ -445,7 +445,7 @@ public class MainActivity extends AppCompatActivity
                     }
                     else if (d1d2d3_sun[i]==true) {
                         if(i==0) {
-                            ImageView_d1.setImageResource(R.drawable.sun);
+                            ImageView_d1.setImageResource(R.drawable.sun_white);
                             myLayout.setBackgroundResource(R.drawable.sun_bg);
                         }
                         else if(i==1) ImageView_d2.setImageResource(R.drawable.sun);
@@ -456,7 +456,7 @@ public class MainActivity extends AppCompatActivity
                     }
                     else {
                         if(i==0) {
-                            ImageView_d1.setImageResource(R.drawable.cloud);
+                            ImageView_d1.setImageResource(R.drawable.cloud_white);
                             myLayout.setBackgroundResource(R.drawable.cloudy_bg);
                         }
                         else if(i==1) ImageView_d2.setImageResource(R.drawable.cloud);
@@ -474,23 +474,23 @@ public class MainActivity extends AppCompatActivity
                         //String tmp = "早上\n" + "氣溫：" + temperature_morning[i] + "\n天氣：" + weather_morning[i] +
                         //        "\n\n晚上\n" + "氣溫：" + temperature_night[i] + "\n天氣：" + weather_night[i];
                         if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==false && d1d2d3_rain[i]==true && d1d2d3_thunder[i]==true) {
-                            fadeIn.start();
-                            myLayout.setBackgroundResource(R.drawable.rain_bg);
+                            //fadeIn.start();
+                            myLayout.setBackgroundResource(R.drawable.cloud_thunder_rain_bg);
                         }
                         else if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==true && d1d2d3_rain[i]==false && d1d2d3_thunder[i]==false) {
-                            fadeIn.start();
-                            myLayout.setBackgroundResource(R.drawable.cloudy_bg);
+                            //fadeIn.start();
+                            myLayout.setBackgroundResource(R.drawable.sun_cloud_bg);
                         }
                         else if (d1d2d3_rain[i]==true) {
-                            fadeIn.start();
-                            myLayout.setBackgroundResource(R.drawable.rain_bg);myLayout.setAnimation(fadeIn);fadeIn.start();
+                            //fadeIn.start();
+                            myLayout.setBackgroundResource(R.drawable.rain_bg);
                         }
                         else if (d1d2d3_sun[i]==true) {
-                            fadeIn.start();
-                            myLayout.setBackgroundResource(R.drawable.sun_bg);myLayout.setAnimation(fadeIn);fadeIn.start();
+                            //fadeIn.start();
+                            myLayout.setBackgroundResource(R.drawable.sun_bg);
                         }
                         else {
-                            fadeIn.start();
+                            //fadeIn.start();
                             myLayout.setBackgroundResource(R.drawable.cloudy_bg);
                         }
                         //Toast.makeText(getApplicationContext(), tmp, Toast.LENGTH_SHORT).show();
@@ -503,10 +503,12 @@ public class MainActivity extends AppCompatActivity
                         String tmp = "早上\n" + "氣溫：" + temperature_morning[1] + "\n天氣：" + weather_morning[1] +
                         "\n\n晚上\n" + "氣溫：" + temperature_night[1] + "\n天氣：" + weather_night[1];
                         if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==false && d1d2d3_rain[i]==true && d1d2d3_thunder[i]==true) {
-                            myLayout.setBackgroundResource(R.drawable.rain_bg);
+                            //fadeIn.start();
+                            myLayout.setBackgroundResource(R.drawable.cloud_thunder_rain_bg);
                         }
                         else if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==true && d1d2d3_rain[i]==false && d1d2d3_thunder[i]==false) {
-                            myLayout.setBackgroundResource(R.drawable.cloudy_bg);
+                            //fadeIn.start();
+                            myLayout.setBackgroundResource(R.drawable.sun_cloud_bg);
                         }
                         else if (d1d2d3_rain[i]==true) {
                             myLayout.setBackgroundResource(R.drawable.rain_bg);
@@ -527,10 +529,12 @@ public class MainActivity extends AppCompatActivity
                         String tmp = "早上\n" + "氣溫：" + temperature_morning[2] + "\n天氣：" + weather_morning[2] +
                                 "\n\n晚上\n" + "氣溫：" + temperature_night[2] + "\n天氣：" + weather_night[2];
                         if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==false && d1d2d3_rain[i]==true && d1d2d3_thunder[i]==true) {
-                            myLayout.setBackgroundResource(R.drawable.rain_bg);
+                            //fadeIn.start();
+                            myLayout.setBackgroundResource(R.drawable.cloud_thunder_rain_bg);
                         }
                         else if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==true && d1d2d3_rain[i]==false && d1d2d3_thunder[i]==false) {
-                            myLayout.setBackgroundResource(R.drawable.cloudy_bg);
+                            //fadeIn.start();
+                            myLayout.setBackgroundResource(R.drawable.sun_cloud_bg);
                         }
                         else if (d1d2d3_rain[i]==true) {
                             myLayout.setBackgroundResource(R.drawable.rain_bg);
@@ -551,10 +555,12 @@ public class MainActivity extends AppCompatActivity
                         String tmp = "早上\n" + "氣溫：" + temperature_morning[3] + "\n天氣：" + weather_morning[3] +
                                 "\n\n晚上\n" + "氣溫：" + temperature_night[3] + "\n天氣：" + weather_night[3];
                         if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==false && d1d2d3_rain[i]==true && d1d2d3_thunder[i]==true) {
-                            myLayout.setBackgroundResource(R.drawable.rain_bg);
+                            //fadeIn.start();
+                            myLayout.setBackgroundResource(R.drawable.cloud_thunder_rain_bg);
                         }
                         else if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==true && d1d2d3_rain[i]==false && d1d2d3_thunder[i]==false) {
-                            myLayout.setBackgroundResource(R.drawable.cloudy_bg);
+                            //fadeIn.start();
+                            myLayout.setBackgroundResource(R.drawable.sun_cloud_bg);
                         }
                         else if (d1d2d3_rain[i]==true) {
                             myLayout.setBackgroundResource(R.drawable.rain_bg);
@@ -575,10 +581,12 @@ public class MainActivity extends AppCompatActivity
                         String tmp = "早上\n" + "氣溫：" + temperature_morning[4] + "\n天氣：" + weather_morning[4] +
                                 "\n\n晚上\n" + "氣溫：" + temperature_night[4] + "\n天氣：" + weather_night[4];
                         if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==false && d1d2d3_rain[i]==true && d1d2d3_thunder[i]==true) {
-                            myLayout.setBackgroundResource(R.drawable.rain_bg);
+                            //fadeIn.start();
+                            myLayout.setBackgroundResource(R.drawable.cloud_thunder_rain_bg);
                         }
                         else if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==true && d1d2d3_rain[i]==false && d1d2d3_thunder[i]==false) {
-                            myLayout.setBackgroundResource(R.drawable.cloudy_bg);
+                            //fadeIn.start();
+                            myLayout.setBackgroundResource(R.drawable.sun_cloud_bg);
                         }
                         else if (d1d2d3_rain[i]==true) {
                             myLayout.setBackgroundResource(R.drawable.rain_bg);
@@ -599,10 +607,12 @@ public class MainActivity extends AppCompatActivity
                         String tmp = "早上\n" + "氣溫：" + temperature_morning[5] + "\n天氣：" + weather_morning[5] +
                                 "\n\n晚上\n" + "氣溫：" + temperature_night[5] + "\n天氣：" + weather_night[5];
                         if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==false && d1d2d3_rain[i]==true && d1d2d3_thunder[i]==true) {
-                            myLayout.setBackgroundResource(R.drawable.rain_bg);
+                            //fadeIn.start();
+                            myLayout.setBackgroundResource(R.drawable.cloud_thunder_rain_bg);
                         }
                         else if (d1d2d3_cloud[i]==true && d1d2d3_sun[i]==true && d1d2d3_rain[i]==false && d1d2d3_thunder[i]==false) {
-                            myLayout.setBackgroundResource(R.drawable.cloudy_bg);
+                            //fadeIn.start();
+                            myLayout.setBackgroundResource(R.drawable.sun_cloud_bg);
                         }
                         else if (d1d2d3_rain[i]==true) {
                             myLayout.setBackgroundResource(R.drawable.rain_bg);
