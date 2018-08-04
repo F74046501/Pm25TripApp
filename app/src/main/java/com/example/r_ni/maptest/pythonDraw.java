@@ -1,5 +1,6 @@
 package com.example.r_ni.maptest;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
@@ -9,8 +10,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +44,9 @@ import java.util.concurrent.TimeUnit;
 public class pythonDraw extends AppCompatActivity {
 
     private Button sendBtn;
-    private EditText textboxPlace, textboxStartTime, textboxStayTime, textboxDate;
+    private CalendarView mCalendarView;
+    private EditText textboxPlace, textboxStartTime, textboxStayTime;
+    private String CalenderYear, CalenderMonth, CalenderDay, CalenderResult;
 
     //////////the thing of server///////////
     /*主 变量*/
@@ -80,7 +85,9 @@ public class pythonDraw extends AppCompatActivity {
         textboxPlace = (EditText)findViewById(R.id.textboxPlace); //ex:台北101/淡水老街/陽明山/圓山大飯店
         textboxStartTime = (EditText)findViewById(R.id.textboxStartTime); //ex:2155
         textboxStayTime = (EditText)findViewById(R.id.textboxStayTime);// ex:180/220/60
-        textboxDate = (EditText)findViewById(R.id.textboxDate);// ex:0711
+        //textboxDate = (EditText)findViewById(R.id.textboxDate);// ex:0711
+        mCalendarView = (CalendarView) findViewById(R.id.calendarView);// 日曆
+
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,10 +95,30 @@ public class pythonDraw extends AppCompatActivity {
                 String placeStr = textboxPlace.getText().toString();
                 String startStr = textboxStartTime.getText().toString();
                 String stayStr = textboxStayTime.getText().toString();
-                String dateStr = textboxDate.getText().toString();
-                String result = placeStr+"*"+startStr+"*"+stayStr+"*"+dateStr;
+                //String dateStr = textboxDate.getText().toString();
+                String result = placeStr+"*"+startStr+"*"+stayStr+"*"+CalenderResult;
                 System.out.println(result);
                 server_connect(result);
+            }
+        });
+
+        mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(CalendarView CalendarView, int year, int month, int dayOfMonth) {
+                CalenderYear = Integer.toString(year);
+
+                if(month-10<0)
+                    CalenderMonth = "0"+Integer.toString(month);
+                else
+                    CalenderMonth = Integer.toString(month);
+
+                if(dayOfMonth-10<0)
+                    CalenderDay = "0" + Integer.toString(dayOfMonth);
+                else
+                    CalenderDay = Integer.toString(dayOfMonth);
+
+                CalenderResult = CalenderMonth + CalenderDay;
+                Toast.makeText(getApplicationContext(), CalenderResult, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -115,7 +142,7 @@ public class pythonDraw extends AppCompatActivity {
             public void run() {
                 try {
                     // 创建Socket对象 & 指定服务端的IP 及 端口号
-                    socket = new Socket("192.168.31.172", 6665
+                    socket = new Socket("140.116.154.82", 6665
                     );
                     // 判断客户端和服务器是否连接成功
                     //System.out.println(socket.isConnected());

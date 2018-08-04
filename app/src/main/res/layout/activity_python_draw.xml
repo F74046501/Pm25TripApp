@@ -29,83 +29,98 @@
             tools:layout_editor_absoluteY="191dp" />
 
     </LinearLayout>
-
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="25pt"
+        android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/textboxPlace"
-            android:layout_width="match_parent"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="80pt"
             android:layout_height="match_parent"
-            android:ems="10"
-            android:hint="Place ex:台北101/淡水老街/陽明山/圓山大飯店"
-            android:inputType="textPersonName"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="191dp" />
-    </LinearLayout>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="25pt"
-        android:orientation="horizontal">
+            android:orientation="vertical"
+            android:layout_weight="1">
 
-        <EditText
-            android:id="@+id/textboxStartTime"
-            android:layout_width="match_parent"
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="25pt"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/textboxPlace"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:hint="Place ex:台北101/淡水老街/陽明山/圓山大飯店"
+                    android:inputType="textPersonName"
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:layout_editor_absoluteY="191dp" />
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="25pt"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/textboxStartTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:hint="Start time(24hr) ex:2155"
+                    android:inputType="textPersonName"
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:layout_editor_absoluteY="191dp" />
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="25pt"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/textboxStayTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:hint="Stat time(min), ex:180/220/60"
+                    android:inputType="textPersonName"
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:layout_editor_absoluteY="191dp" />
+            </LinearLayout>
+
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="25pt"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/sendbtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Button"
+                    tools:layout_editor_absoluteX="260dp"
+                    tools:layout_editor_absoluteY="191dp" />
+
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="90pt"
             android:layout_height="match_parent"
-            android:ems="10"
-            android:hint="Start time(24hr) ex:2155"
-            android:inputType="textPersonName"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="191dp" />
-    </LinearLayout>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="25pt"
-        android:orientation="horizontal">
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/textboxStayTime"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:ems="10"
-            android:hint="Stat time(min), ex:180/220/60"
-            android:inputType="textPersonName"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="191dp" />
-    </LinearLayout>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="25pt"
-        android:orientation="horizontal">
+            <CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_weight="0"
+                android:layout_height="wrap_content" />
 
-        <EditText
-            android:id="@+id/textboxDate"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:ems="10"
-            android:hint="Date ex:0711"
-            android:inputType="textPersonName"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="191dp" />
-    </LinearLayout>
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="25pt"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/sendbtn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Button"
-            tools:layout_editor_absoluteX="260dp"
-            tools:layout_editor_absoluteY="191dp" />
+        </LinearLayout>
 
     </LinearLayout>
-
 
 
 </LinearLayout>

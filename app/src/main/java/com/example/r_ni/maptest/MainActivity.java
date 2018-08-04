@@ -297,7 +297,7 @@ public class MainActivity extends AppCompatActivity
             public void run() {
                 try {
                     // 创建Socket对象 & 指定服务端的IP 及 端口号
-                    socket = new Socket("192.168.31.172", 4444);
+                    socket = new Socket("140.116.154.82", 4444);
                     // 判断客户端和服务器是否连接成功
                     System.out.println(socket.isConnected());
 
