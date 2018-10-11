@@ -2,7 +2,7 @@
 It's an app which can predict the PM2.5 and show you the PM2.5 condition for your trip in an user-friendly way APP.
 
 ## Framework
-
+![image](https://github.com/F74046501/Pm25TripApp/blob/master/framework.png)
 
 ## Language used
 1. client side - Java (for android studio)
